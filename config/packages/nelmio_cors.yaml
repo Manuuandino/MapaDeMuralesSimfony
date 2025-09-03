@@ -1,0 +1,8 @@
+nelmio_cors:
+    defaults:
+        allow_origin: ['*']       # permite cualquier origen
+        allow_methods: ['GET']    # permite GET
+        allow_headers: ['Content-Type']
+    paths:
+        '^/api/': ~               # aplica solo a rutas que empiecen con /api/
+
