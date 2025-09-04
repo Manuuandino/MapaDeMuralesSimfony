@@ -1,1 +1,19 @@
-Este es el homepage
+{% block title %}Bienvenido!{% endblock %}
+
+{% block stylesheets %}
+{{ encore_entry_link_tags('app') }}
+{{ encore_entry_link_tags('homepage') }}
+{% endblock %}
+
+<body>
+    <div class="banner-homepage">
+        <div class="titulo">
+            <h1>Pin Your World, Discover Stories</h1>
+            <p>Easily mark locations on a map, add details, photos, and explore your saved memories. Start charting your journey today!</p>
+            <a class="btn-accion" href="{{ path('mapa') }}">Empeza a Explorar</a>
+        </div>
+        <div class="imagen">
+            <img src="" alt="prueba">
+        </div>
+    </div>
+</body>

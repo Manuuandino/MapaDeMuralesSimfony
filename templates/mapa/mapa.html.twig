@@ -1,13 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mapa Interactivo{% endblock %}
+{% block title %}Mapa interactivo{% endblock %}
 
 {% block stylesheets %}
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 {{ encore_entry_link_tags('mapa') }}
+{{ encore_entry_link_tags('app') }}
 {% endblock %}
 
-{% block body %}
+{% block content %}
+<div class="titulo-mapa">
+<h1>Mapa Interactivo</h1>
+</div>
 <div id="map"></div>
 {% endblock %}
 

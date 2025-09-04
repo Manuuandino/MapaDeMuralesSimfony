@@ -7,13 +7,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MapaController extends AbstractController
 {
-    #[Route('/mapa', name: 'homepage_mapa')]
+    #[Route('/mapa', name: 'mapa')]
     public function index(): Response
     {
         // No hay pines precargados
         $pins = [];
 
-        return $this->render('homepage/mapa.html.twig', [
+        return $this->render('mapa/mapa.html.twig', [
             'pins' => $pins,
         ]);
     }

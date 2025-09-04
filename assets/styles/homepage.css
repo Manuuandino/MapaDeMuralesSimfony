@@ -1,0 +1,31 @@
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.banner-homepage{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    height: 100%;
+    max-width: 900px;
+}
+
+.banner-homepage .titulo, .banner-homepage .imagen{
+    width: 50%;
+}
+
+.titulo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.btn-accion{
+    text-decoration: none;
+   background-color: #D0BCD5; 
+   padding: 20px;
+   cursor: pointer;
+}
