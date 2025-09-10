@@ -1,5 +1,3 @@
-{% block title %}Bienvenido!{% endblock %}
-
 {% block stylesheets %}
 {{ encore_entry_link_tags('app') }}
 {{ encore_entry_link_tags('homepage') }}
@@ -13,7 +11,7 @@
             <a class="btn-accion" href="{{ path('mapa') }}">Empeza a Explorar</a>
         </div>
         <div class="imagen">
-            <img src="" alt="prueba">
+            <img src="{{ asset('images/imagen-prueba.jpg') }}" alt="prueba">
         </div>
     </div>
 </body>

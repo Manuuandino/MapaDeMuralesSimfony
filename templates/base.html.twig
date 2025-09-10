@@ -13,14 +13,14 @@
     <div class="sidebar">
         <header>
             {% block header %}
-                <h1>PicPin</h1>
+                <img class="logo" src="{{ asset('images/logo-picaround.svg') }}" alt="logo">
             {% endblock %}
         </header>
         {% block sidebar %}
-        <ul>
-            <li><a href="{{ path('mapa') }}" data-turbo-frame="main">Mapa</a></li>
-            <li><a href="" data-turbo-frame="main">Pins</a></li>
-            <li><a href="" data-turbo-frame="main">Categorías</a></li>
+        <ul class="contenedor-btn-dashboard">
+            <li><a class="btn-dashboard" href="{{ path('mapa') }}" data-turbo-frame="main">Mapa</a></li>
+            <li><a class="btn-dashboard" href="" data-turbo-frame="main">Pins</a></li>
+            <li><a class="btn-dashboard" href="" data-turbo-frame="main">Categorías</a></li>
         </ul>
         {% endblock %}
     </div>

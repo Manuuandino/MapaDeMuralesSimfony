@@ -1,21 +1,23 @@
 body {
-    background-color: #000000;
+    background-color: #e7e7e7;
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
 }
             /* Reset */
             html, body {
-                margin: 0;
-                padding: 0;
                 height: 100%;
+                margin: 0;          
+                padding: 0;
+                overflow: hidden;
                 font-family: Arial, sans-serif;
             }
 
             h1, p{
-                color: white;
+                color: #391557;
+            }
+
+            .logo{
+                width: 150px;
             }
 
             /* Sidebar */
@@ -29,6 +31,11 @@ body {
                 color: white;
                 padding: 20px;
                 box-sizing: border-box;
+                box-shadow: 
+                0 4px 10px rgba(0, 0, 0, 0.863),  
+                0 8px 20px rgba(0, 0, 0, 0.363); 
+                position: fixed; /* para que quede sobre el contenido */
+                z-index: 1000; /* que esté por encima de todo */
             }
 
             .sidebar ul {
@@ -36,15 +43,14 @@ body {
                 padding: 0;
             }
 
-            .sidebar ul li {
-                margin: 15px 0;
-            }
-
-            .sidebar ul li a {
+            .sidebar ul li .btn-dashboard {
                 color: white;
                 text-decoration: none;
                 font-size: 18px;
+                font-weight: 700;
                 display: block;
+                text-align: center;
+                padding: 20px 0;
             }
 
             /* Main content */
@@ -66,7 +72,6 @@ body {
             main {
                 flex: 1;
                 overflow: auto;
-                padding: 20px;
             }
 
             section {
@@ -74,4 +79,13 @@ body {
                 padding: 20px;
                 background-color: #ecf0f1;
                 border-radius: 8px;
+            }
+
+
+            .contenedor-btn-dashboard{
+                background-color: #7B2CBE;
+                border-radius: 16px;
+                box-shadow: 
+                0 4px 6px rgba(0, 0, 0, 0.582),  
+                0 3px 10px rgba(0, 0, 0, 0.445)
             }

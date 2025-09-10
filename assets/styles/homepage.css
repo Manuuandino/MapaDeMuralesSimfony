@@ -21,11 +21,21 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding: 50px;
 }
 
 .btn-accion{
+    color: white;
     text-decoration: none;
-   background-color: #D0BCD5; 
+   background-color: #7B2CBE; 
    padding: 20px;
    cursor: pointer;
+}
+
+.imagen img{
+    width: 100%;      
+    height: 500px;     
+    display: block;  
+    max-height: 100%; 
+    border-radius: 20px;
 }
