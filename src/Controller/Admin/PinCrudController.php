@@ -11,7 +11,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Form\Type\FileUploadType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
+use App\Validator\ValidImageUpload;
 use Doctrine\ORM\EntityManagerInterface;
+
 
 class PinCrudController extends AbstractCrudController
 {
@@ -28,12 +33,19 @@ class PinCrudController extends AbstractCrudController
             TextEditorField::new('description'),
             NumberField::new('latitude'),
             NumberField::new('longitude'),
-            ImageField::new('imagePath')
-                ->setBasePath('uploads/images')
-                ->setUploadDir('public/uploads/images')
-                ->setRequired(false),
             AssociationField::new('user')->hideOnForm(),
             DateTimeField::new('createdAt')->hideOnForm(),
+
+            ImageField::new('image')
+            ->setUploadDir('public/uploads/pins')
+            ->setBasePath('uploads/pins') 
+            ->setUploadedFileNamePattern('[contenthash].[extension]')
+            ->setHtmlAttribute('accept', 'image/png, image/webp, image/jpeg')
+            ->setFormTypeOptions([
+                'constraints' => [
+                    new ValidImageUpload()
+                ]
+            ])
         ];
     }
 

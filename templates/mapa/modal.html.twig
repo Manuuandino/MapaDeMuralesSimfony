@@ -1,0 +1,31 @@
+{# templates/components/pin_modal.html.twig #}
+<div id="pinModal" class="z-[1001] fixed inset-0 hidden items-center justify-center bg-black/50">
+  <div class="bg-white rounded-lg shadow-lg w-96 p-6 relative">
+    <h2 class="text-xl font-bold mb-4">Agregar Pin</h2>
+    <form id="pinForm" action="{{ path('pin_create') }}" method="POST" class="space-y-4" enctype="multipart/form-data">
+      <input type="hidden" name="latitude" id="latitude">
+      <input type="hidden" name="longitude" id="longitude">
+
+      <div>
+        <label class="block text-sm font-medium">Título</label>
+        <input type="text" name="title" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" required>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium">Descripción</label>
+        <textarea name="description" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2"></textarea>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium">Imagen</label>
+        <input type="file" name="image" class="mt-1 block w-full" accept="image/*" multiple>
+      </div>
+
+      <div class="flex justify-end space-x-2">
+        <button type="button" id="cancelBtn" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancelar</button>
+        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Guardar</button>
+      </div>
+    </form>
+    <button id="closeModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
+  </div>
+</div>

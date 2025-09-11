@@ -12,6 +12,7 @@
 <div class="mapa-interactivo-contenedor">
     <div id="map"></div>
 </div>
+{% include 'mapa/modal.html.twig' %}
 {% endblock %}
 
 {% block javascripts %}
@@ -20,30 +21,49 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     // Inicializar el mapa centrado en La Plata
-    const map = L.map('map').setView([-34.9214, -57.9544], 12);
+    const map = L.map('map').setView([-34.9214, -57.9544], 13);
 
     // Capa base OpenStreetMap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
-    // Pines precargados (vacío por ahora)
+    // Pines precargados
     const pins = {{ pins|json_encode|raw|default('[]') }};
-
-    // Mostrar pines existentes (ninguno por ahora)
     pins.forEach(pin => {
         const marker = L.marker([pin.lat, pin.lng], { draggable: true }).addTo(map);
         marker.bindPopup(`<b>${pin.title}</b><br>Lat: ${pin.lat.toFixed(5)}, Lng: ${pin.lng.toFixed(5)}
                           <br><button onclick="map.removeLayer(marker)">Eliminar</button>`);
     });
 
-    // Agregar nuevo pin al hacer clic en el mapa
+    // Referencias al modal
+    const pinModal = document.getElementById('pinModal');
+    const closeModalBtn = document.getElementById('closeModal');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const latitudeInput = document.getElementById('latitude');
+    const longitudeInput = document.getElementById('longitude');
+
+    function openModal(lat, lng) {
+        latitudeInput.value = lat;
+        longitudeInput.value = lng;
+        pinModal.classList.remove('hidden');
+        pinModal.classList.add('flex');
+    }
+
+    function closeModal() {
+        pinModal.classList.add('hidden');
+        pinModal.classList.remove('flex');
+    }
+
+    closeModalBtn.addEventListener('click', closeModal);
+    cancelBtn.addEventListener('click', closeModal);
+
+    // Abrir modal al hacer clic en el mapa
     map.on('click', function(e) {
-        const marker = L.marker([e.latlng.lat, e.latlng.lng], { draggable: true }).addTo(map);
-        marker.bindPopup(`<b>Nuevo Pin</b><br>Lat: ${e.latlng.lat.toFixed(5)}, Lng: ${e.latlng.lng.toFixed(5)}
-                          <br><button onclick="map.removeLayer(marker)">Eliminar</button>`);
+        openModal(e.latlng.lat, e.latlng.lng);
     });
 
 });
+
 </script>
 {% endblock %}
