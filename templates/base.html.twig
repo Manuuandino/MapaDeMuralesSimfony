@@ -14,7 +14,9 @@
     <div class="sidebar">
         <header class="flex justify-center">
             {% block header %}
-                <img class="logo" src="{{ asset('images/logo-picaround.svg') }}" alt="logo">
+                <a href="{{ path('homepage') }}">
+                    <img class="logo" src="{{ asset('images/logo-picaround.svg') }}" alt="logo">
+                </a>
             {% endblock %}
         </header>
         {% block sidebar %}
