@@ -12,17 +12,17 @@
     </head>
     <body>
     <div class="sidebar">
-        <header>
+        <header class="flex justify-center">
             {% block header %}
                 <img class="logo" src="{{ asset('images/logo-picaround.svg') }}" alt="logo">
             {% endblock %}
         </header>
         {% block sidebar %}
-        <ul class="contenedor-btn-dashboard">
-            <li><a class="btn-dashboard" href="{{ path('mapa') }}" data-turbo-frame="main">Mapa</a></li>
-            <li><a class="btn-dashboard" href="" data-turbo-frame="main">Pins</a></li>
-            <li><a class="btn-dashboard" href="" data-turbo-frame="main">Categorías</a></li>
-        </ul>
+        <div class="text-center flex flex-col justify-center gap-5 mt-5">
+            <a class="btn-dashboard active" href="{{ path('mapa') }}" data-turbo-frame="main">Mapa</a>
+            <a class="btn-dashboard" href="" data-turbo-frame="main">Pins</a>
+            <a class="btn-dashboard" href="" data-turbo-frame="main">Categorías</a>
+        </div>
         {% endblock %}
     </div>
 

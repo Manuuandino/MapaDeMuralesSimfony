@@ -23,47 +23,70 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicializar el mapa centrado en La Plata
     const map = L.map('map').setView([-34.9214, -57.9544], 13);
 
-    // Capa base OpenStreetMap
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { 
+        attribution: '© OpenStreetMap contributors' 
     }).addTo(map);
 
     // Pines precargados
     const pins = {{ pins|json_encode|raw|default('[]') }};
     pins.forEach(pin => {
         const marker = L.marker([pin.lat, pin.lng], { draggable: true }).addTo(map);
-        marker.bindPopup(`<b>${pin.title}</b><br>Lat: ${pin.lat.toFixed(5)}, Lng: ${pin.lng.toFixed(5)}
-                          <br><button onclick="map.removeLayer(marker)">Eliminar</button>`);
+        marker.bindPopup(`
+          <b>${pin.title}</b><br>
+          Lat: ${pin.lat.toFixed(5)}, Lng: ${pin.lng.toFixed(5)}<br>
+          <button class="delete-btn">Eliminar</button>
+        `);
+        marker.on('popupopen', function(e) {
+            const btn = e.popup._contentNode.querySelector('.delete-btn');
+            btn.addEventListener('click', function() {
+                map.removeLayer(marker);
+            });
+        });
     });
 
-    // Referencias al modal
+    // Referencias al modal y botones
     const pinModal = document.getElementById('pinModal');
-    const closeModalBtn = document.getElementById('closeModal');
     const cancelBtn = document.getElementById('cancelBtn');
     const latitudeInput = document.getElementById('latitude');
     const longitudeInput = document.getElementById('longitude');
+
+    // Referencias al nuevo input custom de imágenes
+    const fileInput = document.getElementById('fileInput');
+    const customButton = document.getElementById('customButton');
+    const fileName = document.getElementById('fileName');
+
+    customButton.addEventListener('click', () => fileInput.click());
+
+    fileInput.addEventListener('change', () => {
+        if (fileInput.files.length > 0) {
+            fileName.textContent = Array.from(fileInput.files)
+                                       .map(f => f.name)
+                                       .join(', ');
+        } else {
+            fileName.textContent = 'No hay archivos seleccionados';
+        }
+    });
 
     function openModal(lat, lng) {
         latitudeInput.value = lat;
         longitudeInput.value = lng;
         pinModal.classList.remove('hidden');
-        pinModal.classList.add('flex');
     }
 
     function closeModal() {
         pinModal.classList.add('hidden');
-        pinModal.classList.remove('flex');
+        // Resetear input de imágenes si se quiere limpiar al cerrar
+        fileInput.value = '';
+        fileName.textContent = 'No hay archivos seleccionados';
     }
 
-    closeModalBtn.addEventListener('click', closeModal);
     cancelBtn.addEventListener('click', closeModal);
 
-    // Abrir modal al hacer clic en el mapa
     map.on('click', function(e) {
         openModal(e.latlng.lat, e.latlng.lng);
     });
 
 });
-
 </script>
+
 {% endblock %}

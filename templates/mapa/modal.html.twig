@@ -1,31 +1,46 @@
-{# templates/components/pin_modal.html.twig #}
-<div id="pinModal" class="z-[1001] fixed inset-0 hidden items-center justify-center bg-black/50">
-  <div class="bg-white rounded-lg shadow-lg w-96 p-6 relative">
-    <h2 class="text-xl font-bold mb-4">Agregar Pin</h2>
-    <form id="pinForm" action="{{ path('pin_create') }}" method="POST" class="space-y-4" enctype="multipart/form-data">
-      <input type="hidden" name="latitude" id="latitude">
-      <input type="hidden" name="longitude" id="longitude">
 
-      <div>
-        <label class="block text-sm font-medium">Título</label>
-        <input type="text" name="title" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" required>
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium">Descripción</label>
-        <textarea name="description" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2"></textarea>
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium">Imagen</label>
-        <input type="file" name="image" class="mt-1 block w-full" accept="image/*" multiple>
-      </div>
-
-      <div class="flex justify-end space-x-2">
-        <button type="button" id="cancelBtn" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancelar</button>
-        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Guardar</button>
+  <div id="pinModal" class="hidden z-[1001] fixed inset-0 flex items-center justify-center bg-black/50">
+    <form action="{{ path('pin_create') }}" method="post" id="pinForm" enctype="multipart/form-data">
+      <div id="form-body">
+        <div id="welcome-lines">
+          <div id="welcome-line-1">PicAround</div>
+          <div id="welcome-line-2">Cargá tus fotos!</div>
+        </div>
+        <div id="input-area">
+          <input type="hidden" name="latitude" id="latitude">
+          <input type="hidden" name="longitude" id="longitude">
+          <div class="form-inp">
+                    <input placeholder="Titulo" type="text" name="title" required>
+          </div>
+          <div class="form-inp">
+                    <textarea placeholder="Descripción" name="description"></textarea>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <input type="file" id="fileInput" name="images[]" class="hidden" multiple>
+            <button type="button" id="customButton" class="px-4 py-2 bg-[#7b2cbf] text-white rounded hover:bg-[#9d4edd] w-full">
+              Subir imágenes
+            </button>
+            <span id="fileName" class="text-gray-600 text-sm">No hay archivos seleccionados</span>
+          </div>
+        </div>
+        <div id="submit-button-cvr" class="flex justify-around">
+                  <button type="button" id="cancelBtn" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 cursor-pointer">Cancelar</button>
+                  <button type="submit" class="px-4 py-2 bg-[#7b2cbf] hover:bg-[#9d4edd] text-white rounded cursor-pointer">Guardar</button>
+        </div>
+        <button id="closeModal" class="hidden absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
       </div>
     </form>
-    <button id="closeModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
-  </div>
-</div>
+    </div>
+  
+
+
+
+
+
+
+
+
+
+
+<!-- From Uiverse.io by AnthonyPreite --> 
+

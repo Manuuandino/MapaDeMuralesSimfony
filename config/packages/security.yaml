@@ -18,6 +18,7 @@ security:
                 login_path: app_sign_in
                 check_path: app_sign_in
                 enable_csrf: true
+                default_target_path: /
             logout:
                 path: app_sign_out
             lazy: true
