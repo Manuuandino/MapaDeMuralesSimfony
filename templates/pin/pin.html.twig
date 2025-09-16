@@ -8,13 +8,13 @@
 {% block title %}Pins{% endblock %}
 
 {% block content %}
-<h1 class="text-3xl text-center font-bold mt-5">Todos los Pins</h1>
+<h1 class="text-3xl text-center font-bold mt-5 ">Todos los Pins</h1>
 
 <div class="flex flex-row">
 {% for pin in pins %}
     <a href="{{ path('pins_show', {'id': pin.id}) }}" class="card m-5 ">
         <div class="card2 flex justify-center items-center">        
-        <h2 class="text-xl font-bold text-center">{{ pin.title }}</h2>
+        <h2 class="text-xl font-bold text-center text-white">{{ pin.title }}</h2>
         </div>
     </a>
 {% endfor %}

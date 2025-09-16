@@ -4,19 +4,41 @@
 
 {% block stylesheets %}
 {{ encore_entry_link_tags('app') }}
+{{ encore_entry_link_tags('profile') }}
 {% endblock %}
 
 {% block content %}
-{# templates/user/profile.html.twig #}
-<h1>Mi Perfil</h1>
-
-<div class="perfil-container">
-    <p><strong>ID:</strong> {{ user.id }}</p>
-    <p><strong>Nombre:</strong> {{ user.userIdentifier }}</p>
+<!-- From Uiverse.io by pharmacist-sabot --> 
+<div class="glitch-profile-wrapper">
+  <div class="glitch-card profile-card">
+    <div class="card-header-visual"></div>
+    <div class="profile-avatar">
+      <img class="octocat-svg" src="{{ asset('images/profile-logo.svg') }}" alt="logo">
+    </div>
+    <div class="card-body profile-body">
+      <div class="profile-info">
+        <div class="profile-name" data-text="octo_cat">{{ user.userIdentifier }}</div>
+        <p class="profile-title">{{ user.roles|join(', ') }}</p>
+      </div>
+      <div class="profile-stats">
+        <div class="stat-item">
+          <span class="stat-label">PINS</span>
+          <span class="stat-value" data-text="128">128</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">FOLLOWERS</span>
+          <span class="stat-value" data-text="42k">42k</span>
+        </div>
+      </div>
+      <a href="{{ path('pin') }}" class="submit-btn" data-text="VIEW_ON_GITHUB">
+        <span class="btn-text">VER PINS</span>
+      </a>
+    </div>
+  </div>
+</div>
+{# <div class="perfil-container">
     <p><strong>Email:</strong> {{ user.email }}</p>
     <p><strong>Roles:</strong> {{ user.roles|join(', ') }}</p>
-
-    {# Si en el admin ves otros campos, agregalos aquí #}
     {% if user.firstName is defined %}
         <p><strong>Nombre:</strong> {{ user.firstName }}</p>
     {% endif %}
@@ -26,6 +48,5 @@
     {% if user.createdAt is defined %}
         <p><strong>Registrado desde:</strong> {{ user.createdAt|date('d/m/Y') }}</p>
     {% endif %}
-</div>
-
+</div> #}
 {% endblock %}
