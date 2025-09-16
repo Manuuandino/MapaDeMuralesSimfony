@@ -23,6 +23,7 @@ Encore
     .addEntry('app', './assets/app.js')
     .addEntry('mapa', './assets/mapa.js')
     .addEntry('homepage', './assets/homepage.js')
+    .addEntry('pin', './assets/pin.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

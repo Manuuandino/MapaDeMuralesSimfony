@@ -1,0 +1,5 @@
+{% for img in field.value %}
+    {% if img.filename %}
+        <img src="{{ asset('uploads/pins/' ~ img.filename) }}" style="max-width:120px; margin:5px;">
+    {% endif %}
+{% endfor %}

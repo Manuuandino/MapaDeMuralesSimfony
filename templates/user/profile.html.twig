@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Perfil{% endblock %}
+
+{% block stylesheets %}
+{{ encore_entry_link_tags('app') }}
+{% endblock %}
+
+{% block content %}
+{# templates/user/profile.html.twig #}
+<h1>Mi Perfil</h1>
+
+<div class="perfil-container">
+    <p><strong>ID:</strong> {{ user.id }}</p>
+    <p><strong>Nombre:</strong> {{ user.userIdentifier }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Roles:</strong> {{ user.roles|join(', ') }}</p>
+
+    {# Si en el admin ves otros campos, agregalos aquí #}
+    {% if user.firstName is defined %}
+        <p><strong>Nombre:</strong> {{ user.firstName }}</p>
+    {% endif %}
+    {% if user.lastName is defined %}
+        <p><strong>Apellido:</strong> {{ user.lastName }}</p>
+    {% endif %}
+    {% if user.createdAt is defined %}
+        <p><strong>Registrado desde:</strong> {{ user.createdAt|date('d/m/Y') }}</p>
+    {% endif %}
+</div>
+
+{% endblock %}

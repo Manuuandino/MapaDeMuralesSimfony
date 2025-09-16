@@ -3,49 +3,71 @@
 namespace App\Controller;
 
 use App\Entity\Pin;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\PinImage;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
-
-
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class PinController extends AbstractController
 {
-#[Route('/pins', name: 'pin_create', methods: ['POST'])]
-public function create(Request $request, EntityManagerInterface $em): Response
+    #[Route('/pins', name: 'pin')]
+    public function index(ManagerRegistry $doctrine): Response
     {
-        // 1️⃣ Crear el Pin
-        $pin = new Pin();
-        $pin->setTitle($request->request->get('title'));
-        $pin->setDescription($request->request->get('description'));
-        $pin->setLatitude((float) $request->request->get('latitude'));
-        $pin->setLongitude((float) $request->request->get('longitude'));
-        $pin->setUser($this->getUser());
-        $pin->setCreatedAt(new \DateTime());
+        $pins = $doctrine->getRepository(Pin::class)->findAll();
 
-        // 2️⃣ Subir múltiples imágenes al disco
-        $imagesFiles = $request->files->get('images'); // name="images[]" en el modal
-        $savedImages = [];
-        if ($imagesFiles) {
-            foreach ($imagesFiles as $imageFile) {
-                if ($imageFile) {
-                    $newFilename = uniqid() . '.' . $imageFile->guessExtension();
-                    $imageFile->move($this->getParameter('uploads_directory'), $newFilename);
-                    $savedImages[] = $newFilename;
+        return $this->render('pin/pin.html.twig', [
+            'pins' => $pins,
+        ]);
+    }
+
+    #[Route('/pins/new', name: 'pins_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, ManagerRegistry $doctrine): Response
+    {
+        $pin = new Pin();
+
+        if ($request->isMethod('POST')) {
+
+            // Rellenar campos del pin
+            $pin->setTitle($request->request->get('title'));
+            $pin->setDescription($request->request->get('description'));
+            $pin->setLatitude((float) $request->request->get('latitude'));
+            $pin->setLongitude((float) $request->request->get('longitude'));
+            $pin->setUser($this->getUser()); // Requiere que estés logueado
+
+            // Manejar múltiples imágenes
+            $files = $request->files->get('images', []);
+            foreach ($files as $file) {
+                if ($file instanceof UploadedFile) {
+                    $newFilename = uniqid() . '.' . $file->guessExtension();
+                    $file->move($this->getParameter('pins_images_directory'), $newFilename);
+
+                    $pinImage = new PinImage();
+                    $pinImage->setFilename($newFilename);
+                    $pin->addImage($pinImage);
                 }
             }
+
+            // Guardar en DB
+            $em = $doctrine->getManager();
+            $em->persist($pin);
+            $em->flush();
+
+$this->addFlash('success', 'Pin creado correctamente');
+return $this->redirectToRoute('mapa');
+
         }
 
-        // 3️⃣ Guardar en la DB solo la primera imagen (opcional)
-        if (!empty($savedImages)) {
-            $pin->setImage($savedImages[0]); // si querés mostrar algo en el admin
-        }
+        return $this->render('mapa');
+    }
 
-        $em->persist($pin);
-        $em->flush();
-
-        return $this->redirectToRoute('mapa');
+    #[Route('/pins/{id}', name: 'pins_show', methods: ['GET'])]
+    public function show(Pin $pin): Response
+    {
+        return $this->render('pin/show.html.twig', [
+            'pin' => $pin,
+        ]);
     }
 }

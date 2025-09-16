@@ -21,10 +21,11 @@
         </header>
         {% block sidebar %}
         <div class="text-center flex flex-col justify-center gap-5 mt-5">
-            <a class="btn-dashboard active" href="{{ path('mapa') }}" data-turbo-frame="main">Mapa</a>
-            <a class="btn-dashboard" href="" data-turbo-frame="main">Pins</a>
+            <a class="btn-dashboard {% if app.request.attributes.get('_route') == 'mapa' %}active{% endif %}" href="{{ path('mapa') }}" data-turbo-frame="main">Mapa</a>
+            <a class="btn-dashboard {% if app.request.attributes.get('_route') == 'pin' %}active{% endif %}" href="{{ path('pin') }}" data-turbo-frame="main">Pins</a>
             <a class="btn-dashboard" href="" data-turbo-frame="main">Categorías</a>
             <a class="btn-dashboard" href="" data-turbo-frame="main">Imagenes</a>
+            <a class="btn-dashboard {% if app.request.attributes.get('_route') == 'perfil' %}active{% endif %}" href="{{ path('perfil') }}" data-turbo-frame="main">Usuario</a>
         </div>
         {% endblock %}
     </div>

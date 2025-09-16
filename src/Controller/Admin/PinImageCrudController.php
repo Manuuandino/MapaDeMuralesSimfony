@@ -4,23 +4,26 @@ namespace App\Controller\Admin;
 
 use App\Entity\PinImage;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 
 class PinImageCrudController extends AbstractCrudController
 {
-    public static function getEntityFqcn(): string {
+    public static function getEntityFqcn(): string
+    {
         return PinImage::class;
     }
 
-    public function configureFields(string $pageName): iterable {
+    public function configureFields(string $pageName): iterable
+    {
         return [
-            AssociationField::new('pin'), // Relación con Pin
+            IdField::new('id')->hideOnForm(),
             ImageField::new('filename')
-                ->setBasePath('uploads/pins') // carpeta donde se guardan las imágenes
+                ->setBasePath('uploads/pins')
                 ->setUploadDir('public/uploads/pins')
-                ->setUploadedFileNamePattern('[randomhash].[extension]')
+                ->setUploadedFileNamePattern('[contenthash].[extension]'),
+            AssociationField::new('pin'),
         ];
     }
 }

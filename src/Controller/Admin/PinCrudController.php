@@ -3,26 +3,21 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Pin;
-use App\Entity\PinImage;
 use App\Form\PinImageType;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class PinCrudController extends AbstractCrudController
 {
-    public static function getEntityFqcn(): string
-    {
-        return Pin::class;
-    }
+    public static function getEntityFqcn(): string { return Pin::class; }
 
     public function configureFields(string $pageName): iterable
     {
@@ -35,65 +30,42 @@ class PinCrudController extends AbstractCrudController
             AssociationField::new('user')->hideOnForm(),
             DateTimeField::new('createdAt')->hideOnForm(),
 
-            // Primera imagen para listado/admin
-            ImageField::new('image')
-                ->setUploadDir('public/uploads/pins')
-                ->setBasePath('uploads/pins')
-                ->setUploadedFileNamePattern('[contenthash].[extension]'),
-
-            // MULTIPLES IMÁGENES editable
             CollectionField::new('images')
                 ->setEntryType(PinImageType::class)
-                ->setFormTypeOptions([
-                    'by_reference' => false,
-                ])
+                ->setFormTypeOptions(['by_reference' => false])
                 ->allowAdd()
                 ->allowDelete(),
         ];
     }
 
-    // ----------------- CREAR -----------------
-    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    public function persistEntity(EntityManagerInterface $em, $entityInstance): void
     {
-        if (!$entityInstance instanceof Pin) return;
+        if ($entityInstance instanceof Pin) {
+            $this->handleImages($entityInstance);
+        }
 
-        $entityInstance->setUser($this->getUser());
-        $entityInstance->setCreatedAt(new \DateTime());
-
-        $this->handleUploadedImages($entityInstance, $entityManager);
-
-        parent::persistEntity($entityManager, $entityInstance);
+        parent::persistEntity($em, $entityInstance);
     }
 
-    // ----------------- EDITAR -----------------
-    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    public function updateEntity(EntityManagerInterface $em, $entityInstance): void
     {
-        $this->handleUploadedImages($entityInstance, $entityManager);
+        if ($entityInstance instanceof Pin) {
+            $this->handleImages($entityInstance);
+        }
 
-        parent::updateEntity($entityManager, $entityInstance);
+        parent::updateEntity($em, $entityInstance);
     }
 
-    // ----------------- FUNCION AUXILIAR -----------------
-    private function handleUploadedImages(Pin $pin, EntityManagerInterface $em)
+    private function handleImages(Pin $pin)
     {
-        // Obtener archivos del formulario
-        $form = $this->getContext()->getRequest()->files->get('Pin')['images'] ?? [];
-
-        foreach ($form as $file) {
-            if ($file instanceof UploadedFile) { // ⚡ procesar solo archivos nuevos
-                $filename = uniqid().'.'.$file->guessExtension();
-                $file->move($this->getParameter('uploads_directory'), $filename);
-
-                $pinImage = new PinImage();
-                $pinImage->setFilename($filename);
-                $pin->addImage($pinImage);
-                $em->persist($pinImage);
-
-                // Primera imagen como destacada
-                if (!$pin->getImage()) {
-                    $pin->setImage($filename);
-                }
+        foreach ($pin->getImages() as $pinImage) {
+            $file = $pinImage->getUploadedFile();
+            if ($file instanceof UploadedFile) {
+                $newFilename = uniqid().'.'.$file->guessExtension();
+                $file->move($this->getParameter('pins_images_directory'), $newFilename);
+                $pinImage->setFilename($newFilename);
             }
         }
     }
+
 }

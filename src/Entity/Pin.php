@@ -28,9 +28,6 @@ class Pin
     #[ORM\Column(type:"float")]
     private ?float $longitude = null;
 
-    #[ORM\Column(type:"string", nullable: true, length: 255)]
-    private ?string $image = null;  // <-- primera imagen para mostrar en admin
-
     #[ORM\Column(type:"datetime")]
     private ?\DateTimeInterface $createdAt = null;
 
@@ -38,112 +35,58 @@ class Pin
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    public function __construct() {
+    #[ORM\OneToMany(mappedBy: 'pin', targetEntity: PinImage::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $images;
+
+    public function __construct()
+    {
         $this->images = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
-    // ------------------ GETTERS / SETTERS ------------------
-
-    public function getId(): ?int
+    // ---------------------- GETTERS / SETTERS ----------------------
+    public function getId(): ?int { return $this->id; }
+    public function getTitle(): ?string { return $this->title; }
+    public function setTitle(string $title): self { $this->title = $title; return $this; }
+    public function getDescription(): ?string { return $this->description; }
+    public function setDescription(?string $description): self { $this->description = $description; return $this; }
+    public function getLatitude(): ?float { return $this->latitude; }
+    public function setLatitude(float $latitude): self { $this->latitude = $latitude; return $this; }
+    public function getLongitude(): ?float { return $this->longitude; }
+    public function setLongitude(float $longitude): self { $this->longitude = $longitude; return $this; }
+    public function getCreatedAt(): ?\DateTimeInterface { return $this->createdAt; }
+    public function setCreatedAt(\DateTimeInterface $createdAt): self { $this->createdAt = $createdAt; return $this; }
+    public function getUser(): ?User { return $this->user; }
+    public function setUser(?User $user): self { $this->user = $user; return $this; }
+    /** @return Collection<int, PinImage> */
+    public function getImages(): Collection { return $this->images; }
+    public function addImage(PinImage $image): self
     {
-        return $this->id;
-    }
-
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): static
-    {
-        $this->title = $title;
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): static
-    {
-        $this->description = $description;
-        return $this;
-    }
-
-    public function getLatitude(): ?float
-    {
-        return $this->latitude;
-    }
-
-    public function setLatitude(float $latitude): static
-    {
-        $this->latitude = $latitude;
-        return $this;
-    }
-
-    public function getLongitude(): ?float
-    {
-        return $this->longitude;
-    }
-
-    public function setLongitude(float $longitude): static
-    {
-        $this->longitude = $longitude;
-        return $this;
-    }
-
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setImage(?string $image): static
-    {
-        $this->image = $image;
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
-        return $this;
-    }
-
-    // ------------------ MULTIPLES IMÁGENES ------------------
-
-    public function getImages(): Collection
-    {
-        return $this->images;
-    }
-
-    public function addImage(string $filename): self
-    {
-        if (!$this->images->contains($filename)) {
-            $this->images[] = $filename;
+        if (!$this->images->contains($image)) {
+            $this->images->add($image);
+            $image->setPin($this);
         }
         return $this;
     }
-
-    public function removeImage(string $filename): self
+    public function removeImage(PinImage $image): self
     {
-        $this->images->removeElement($filename);
+        if ($this->images->removeElement($image)) {
+            if ($image->getPin() === $this) {
+                $image->setPin(null);
+
+                // Borrar archivo del disco
+                $filename = $image->getFilename();
+                if ($filename) {
+                    $filePath = __DIR__.'/../../public/uploads/pins/'.$filename;
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
+                }
+            }
+        }
+
         return $this;
     }
+
+
 }
