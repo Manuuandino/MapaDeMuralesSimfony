@@ -1,11 +1,13 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Register{% endblock %}
-
+<head>
+<title>{% block title %}Register{% endblock %}</title>
+<link rel="icon" href="{{ asset('images/logo-picaround.svg') }}">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+{% block stylesheets %}
+{{ encore_entry_link_tags('app') }}
+{% endblock %}
+</head>
 {% block body %}
-    <h1>Register</h1>
-
-    {{ form_errors(registrationForm) }}
+    {# {{ form_errors(registrationForm) }}
 
     {{ form_start(registrationForm) }}
         {{ form_row(registrationForm.email) }}
@@ -15,5 +17,68 @@
         {{ form_row(registrationForm.agreeTerms) }}
 
         <button type="submit" class="btn">Register</button>
+    {{ form_end(registrationForm) }}  #}
+    <div id="form-ui">
+    <div id="form-login">
+    {{ form_errors(registrationForm) }}
+        {{ form_start(registrationForm) }}
+      <div id="form-login-container" class="flex flex-col justify-center">
+                <img class="logo-form self-center" src="{{ asset('images/logo-picaround.svg') }}" alt="prueba">
+        <div id="input-area">
+          <div class="form-inp">
+                {{ form_row(registrationForm.email, {
+                    label:false,
+                    attr: { placeholder: 'Tu correo' }
+                    }) 
+                }}
+          </div>
+          <div class="form-inp">
+                {{ form_row(registrationForm.plainPassword, {
+                        label: false,
+                        attr: { placeholder: 'Contraseña' }
+                    }) 
+                }}
+          </div>
+        </div>
+        {{ form_row(registrationForm.agreeTerms) }}
+        <div id="submit-button-cvr" class="flex justify-around">    
+                <button id="submit-button" type="submit" class="btn">Register</button> 
+        </div>
+                <a href="{{ path('app_sign_in') }}" class="self-center mt-4" >
+            <button
+            type="button"
+            onclick="window.location='{{ path('app_sign_in') }}';"
+            class="group flex items-center justify-start w-11 h-11 bg-[#7b2cbf] rounded-full cursor-pointer relative overflow-hidden transition-all duration-200 shadow-lg hover:w-32 hover:rounded-lg active:translate-x-1 active:translate-y-1"
+            >
+                <div
+                class="flex items-center justify-center w-full transition-all duration-300 group-hover:justify-start group-hover:px-3"
+                >
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+
+                <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+
+                <g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M8 6C8 3.79086 9.79086 2 12 2H17.5C19.9853 2 22 4.01472 22 6.5V17.5C22 19.9853 19.9853 22 17.5 22H12C9.79086 22 8 20.2091 8 18V17C8 16.4477 8.44772 16 9 16C9.55228 16 10 16.4477 10 17V18C10 19.1046 10.8954 20 12 20H17.5C18.8807 20 20 18.8807 20 17.5V6.5C20 5.11929 18.8807 4 17.5 4H12C10.8954 4 10 4.89543 10 6V7C10 7.55228 9.55228 8 9 8C8.44772 8 8 7.55228 8 7V6ZM12.2929 8.29289C12.6834 7.90237 13.3166 7.90237 13.7071 8.29289L16.7071 11.2929C17.0976 11.6834 17.0976 12.3166 16.7071 12.7071L13.7071 15.7071C13.3166 16.0976 12.6834 16.0976 12.2929 15.7071C11.9024 15.3166 11.9024 14.6834 12.2929 14.2929L13.5858 13L5 13C4.44772 13 4 12.5523 4 12C4 11.4477 4.44772 11 5 11L13.5858 11L12.2929 9.70711C11.9024 9.31658 11.9024 8.68342 12.2929 8.29289Z" fill="#ffffff"/> </g>
+
+                </svg>
+                </div>
+                <div
+                class="absolute right-5 transform translate-x-full opacity-0 text-white text-lg font-semibold transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+                >
+                    Log in
+            </div>
+            </button>
+        </a>
+      </div>
     {{ form_end(registrationForm) }}
+    </div>
+    </div> 
+
+
+
+
+
+
+
 {% endblock %}

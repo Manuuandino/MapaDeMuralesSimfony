@@ -1,13 +1,20 @@
-{% block stylesheets %}
-{{ encore_entry_link_tags('app') }}
-{{ encore_entry_link_tags('homepage') }}
-{% endblock %}
-
-<body>
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Muraleando{% endblock %}</title>
+        <link rel="icon" href="{{ asset('images/logo-picaround.svg') }}">
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+        {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+        {{ encore_entry_link_tags('homepage') }}
+        {% endblock %}
+</head>
+{% block body %}
     <div class="banner-homepage">
-        <div class="titulo">
-            <h1>Pin Your World, Discover Stories</h1>
+        <div class="titulo flex flex-col justify-evenly">
+            <h1 class="text-3xl font-bold">Pin Your World, Discover Stories</h1>
             <p>Easily mark locations on a map, add details, photos, and explore your saved memories. Start charting your journey today!</p>
+            {% if app.user %}
             <a href="{{ path('mapa') }}" class="animated-button">
             <svg viewBox="0 0 24 24" class="arr-2" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -22,9 +29,102 @@
                 ></path>
             </svg>
             </a>
+        {% else %}
+            <a href="{{ path('app_sign_in') }}" class="animated-button">
+            <svg viewBox="0 0 24 24" class="arr-2" xmlns="http://www.w3.org/2000/svg">
+                <path
+                d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+                ></path>
+            </svg>
+            <span class="text">Empezá a explorar</span>
+            <span class="circle"></span>
+            <svg viewBox="0 0 24 24" class="arr-1" xmlns="http://www.w3.org/2000/svg">
+                <path
+                d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+                ></path>
+            </svg>
+            </a>
+        {% endif %}
         </div>
         <div class="imagen">
             <img src="{{ asset('images/logo-picaround.svg') }}" alt="prueba">
         </div>
     </div>
-</body>
+    <footer class="p-4 flex gap-3">
+    {% if app.user %}
+        <form action="{{ path('_logout_main') }}" method="post">
+            <button
+            class="group flex items-center justify-start w-11 h-11 bg-[#7b2cbf] rounded-full cursor-pointer relative overflow-hidden transition-all duration-200 shadow-lg hover:w-32 hover:rounded-lg active:translate-x-1 active:translate-y-1"
+            >
+                <div
+                class="flex items-center justify-center w-full transition-all duration-300 group-hover:justify-start group-hover:px-3"
+                >
+                    <svg class="w-4 h-4" viewBox="0 0 512 512" fill="white">
+                    <path
+                    d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"
+                    ></path>
+                    </svg>
+                </div>
+                <div
+                class="absolute right-5 transform translate-x-full opacity-0 text-white text-lg font-semibold transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+                >
+                    Log out
+            </div>
+            </button>
+        </form>
+    {% else %}
+        <form action="{{ path('app_sign_in') }}">
+            <button
+            class="group flex items-center justify-start w-11 h-11 bg-[#7b2cbf] rounded-full cursor-pointer relative overflow-hidden transition-all duration-200 shadow-lg hover:w-32 hover:rounded-lg active:translate-x-1 active:translate-y-1"
+            >
+                <div
+                class="flex items-center justify-center w-full transition-all duration-300 group-hover:justify-start group-hover:px-3"
+                >
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+
+                <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+
+                <g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M8 6C8 3.79086 9.79086 2 12 2H17.5C19.9853 2 22 4.01472 22 6.5V17.5C22 19.9853 19.9853 22 17.5 22H12C9.79086 22 8 20.2091 8 18V17C8 16.4477 8.44772 16 9 16C9.55228 16 10 16.4477 10 17V18C10 19.1046 10.8954 20 12 20H17.5C18.8807 20 20 18.8807 20 17.5V6.5C20 5.11929 18.8807 4 17.5 4H12C10.8954 4 10 4.89543 10 6V7C10 7.55228 9.55228 8 9 8C8.44772 8 8 7.55228 8 7V6ZM12.2929 8.29289C12.6834 7.90237 13.3166 7.90237 13.7071 8.29289L16.7071 11.2929C17.0976 11.6834 17.0976 12.3166 16.7071 12.7071L13.7071 15.7071C13.3166 16.0976 12.6834 16.0976 12.2929 15.7071C11.9024 15.3166 11.9024 14.6834 12.2929 14.2929L13.5858 13L5 13C4.44772 13 4 12.5523 4 12C4 11.4477 4.44772 11 5 11L13.5858 11L12.2929 9.70711C11.9024 9.31658 11.9024 8.68342 12.2929 8.29289Z" fill="#ffffff"/> </g>
+
+                </svg>
+                </div>
+                <div
+                class="absolute right-5 transform translate-x-full opacity-0 text-white text-lg font-semibold transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+                >
+                    Log in
+            </div>
+            </button>
+        </form>
+        <form action="{{ path('app_register') }}">
+            <button
+            class="group flex items-center justify-start w-11 h-11 bg-[#7b2cbf] rounded-full cursor-pointer relative overflow-hidden transition-all duration-200 shadow-lg hover:w-32 hover:rounded-lg active:translate-x-1 active:translate-y-1"
+            >
+                <div
+                class="flex items-center justify-center w-full transition-all duration-300 group-hover:justify-start group-hover:px-3"
+                >
+            <svg
+            class="w-5 h-5"
+            fill="white"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            >
+            <g data-name="Layer 2" id="Layer_2">
+                <path
+                d="m15.626 11.769a6 6 0 1 0 -7.252 0 9.008 9.008 0 0 0 -5.374 8.231 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 9.008 9.008 0 0 0 -5.374-8.231zm-7.626-4.769a4 4 0 1 1 4 4 4 4 0 0 1 -4-4zm10 14h-12a1 1 0 0 1 -1-1 7 7 0 0 1 14 0 1 1 0 0 1 -1 1z"
+                ></path>
+            </g>
+            </svg>
+                </div>
+                <div
+                class="absolute right-5 transform translate-x-full opacity-0 text-white text-lg font-semibold transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+                >
+                    Register
+            </div>
+            </button>
+        </form>
+    {% endif %}
+    </footer>
+{% endblock %}

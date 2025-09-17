@@ -20,7 +20,8 @@ security:
                 enable_csrf: true
                 default_target_path: /
             logout:
-                path: app_sign_out
+                path: /logout
+                target: / 
             lazy: true
             provider: app_user_provider
 

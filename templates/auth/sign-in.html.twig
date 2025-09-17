@@ -1,10 +1,69 @@
+<head>
+<title>{% block title %}Login{% endblock %}</title>
+<link rel="icon" href="{{ asset('images/logo-picaround.svg') }}">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+{% block stylesheets %}
+{{ encore_entry_link_tags('app') }}
+{% endblock %}
+</head>
 {% block body %}
 
 {% if error %}
     <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 {% endif %}
+  <div id="form-ui">
+    <form id="form-login" action="{{ path('app_sign_in') }}" method="post">
+      <div id="form-login-container" class="flex flex-col justify-center">
+                <img class="logo-form self-center" src="{{ asset('images/logo-picaround.svg') }}" alt="prueba">      
+        <div id="input-area">
+          <div class="form-inp">
+                    <input class="inp-login" placeholder="Email" type="text" id="username" name="_username" value="{{ last_username }}"/>
+          </div>
+          <div class="form-inp">
+                    <input class="inp-login" placeholder="Password" type="password" id="password" name="_password"/>
+          </div>
+        </div>
+        <div id="submit-button-cvr" class="flex justify-around">  
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    <button id="submit-button" type="submit">Login</button>      
+        </div>
+      </div>
+          <a href="{{ path('app_register') }}">
+            <button
+            type="button"
+            onclick="window.location='{{ path('app_register') }}';"
+            class="group flex items-center justify-start w-11 h-11 bg-[#7b2cbf] rounded-full cursor-pointer relative overflow-hidden transition-all duration-200 shadow-lg hover:w-32 hover:rounded-lg active:translate-x-1 active:translate-y-1"
+            >
+                <div
+                class="flex items-center justify-center w-full transition-all duration-300 group-hover:justify-start group-hover:px-3"
+                >
+            <svg
+            class="w-5 h-5"
+            fill="white"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            >
+            <g data-name="Layer 2" id="Layer_2">
+                <path
+                d="m15.626 11.769a6 6 0 1 0 -7.252 0 9.008 9.008 0 0 0 -5.374 8.231 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 9.008 9.008 0 0 0 -5.374-8.231zm-7.626-4.769a4 4 0 1 1 4 4 4 4 0 0 1 -4-4zm10 14h-12a1 1 0 0 1 -1-1 7 7 0 0 1 14 0 1 1 0 0 1 -1 1z"
+                ></path>
+            </g>
+            </svg>
+                </div>
+                <div
+                class="absolute right-5 transform translate-x-full opacity-0 text-white text-lg font-semibold transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+                >
+                    Register
+            </div>
+            </button>
+    </a>
+    </form>
+    </div>
+  {% endblock %} 
 
-<form action="{{ path('app_sign_in') }}" method="post">
+
+{# <form action="{{ path('app_sign_in') }}" method="post">
     <label for="username">Email:</label>
     <input type="text" id="username" name="_username" value="{{ last_username }}"/>
 
@@ -14,8 +73,7 @@
     {# If you want to control the URL the user is redirected to on success
     <input type="hidden" name="_target_path" value="/account"/> #}
 
-    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+    {#<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
     <button type="submit">login</button>
-</form>
-  {% endblock %} 
+</form> #}
