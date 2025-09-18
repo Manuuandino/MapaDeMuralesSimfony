@@ -88,5 +88,10 @@ class Pin
         return $this;
     }
 
+    public function __toString(): string
+{
+    return $this->title ?? 'Pin #'.$this->id;
+}
+
 
 }

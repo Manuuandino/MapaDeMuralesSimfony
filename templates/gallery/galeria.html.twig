@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('app') }}
+    {{ encore_entry_link_tags('gallery') }}
+{% endblock %}
+
+{% block title %}Galeria{% endblock %}
+
+{% block content %}
+<div class="gallery">
+  {% for img in imagenes %}
+    <div class="gallery-item">
+      <img src="{{ asset('uploads/pins/' ~ img.filename) }}" alt="Imagen">
+    </div>
+  {% else %}
+    <p>No hay imágenes todavía.</p>
+  {% endfor %}
+</div>
+{% endblock %}
