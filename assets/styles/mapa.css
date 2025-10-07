@@ -7,3 +7,11 @@
 .mapa-interactivo-contenedor{
     max-height: 100%;
 }
+
+/*Boton de cerrar popup*/
+.custom-popup .leaflet-popup-close-button span{
+    font-size: 24px;   /* tamaño del botón */
+    width: 32px;       /* ancho del botón */
+    height: 32px;      /* alto del botón */
+    line-height: 32px; /* centrar el "x" verticalmente */
+}

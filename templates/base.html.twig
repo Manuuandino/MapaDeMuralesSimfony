@@ -21,11 +21,61 @@
                 {% endblock %}
             </header>
             <nav class="flex-1 flex flex-col items-center gap-5 p-4">
-                <a class="btn-dashboard {% if app.request.attributes.get('_route') == 'mapa' %}active{% endif %}" href="{{ path('mapa') }}" data-turbo-frame="main">Mapa</a>
-                <a class="btn-dashboard {% if app.request.attributes.get('_route') == 'pin' %}active{% endif %}" href="{{ path('pin') }}" data-turbo-frame="main">Pins</a>
-                <a class="btn-dashboard" href="" data-turbo-frame="main">Categorías</a>
-                <a class="btn-dashboard" href="{{ path('galeria') }}" data-turbo-frame="main">Imagenes</a>
-                <a class="btn-dashboard {% if app.request.attributes.get('_route') == 'perfil' %}active{% endif %}" href="{{ path('perfil') }}" data-turbo-frame="main">Perfil</a>
+                <div class="comic-brutal-button-container" >
+                    <a class="comic-brutal-button {% if app.request.attributes.get('_route') == 'mapa' %}active{% endif %}" href="{{ path('mapa') }}" data-turbo-frame="main">
+                        <div class="button-inner">
+                        <span class="button-text">Mapa</span>
+                        <div class="halftone-overlay"></div>
+                        <div class="ink-splatter"></div>
+                        </div>
+                        <div class="button-shadow"></div>
+                        <div class="button-frame"></div>
+                    </a>
+                </div>
+                <div class="comic-brutal-button-container" >
+                    <a class="comic-brutal-button {% if app.request.attributes.get('_route') == 'pin' %}active{% endif %}" href="{{ path('pin') }}" data-turbo-frame="main">
+                        <div class="button-inner">
+                        <span class="button-text">Pins</span>
+                        <div class="halftone-overlay"></div>
+                        <div class="ink-splatter"></div>
+                        </div>
+                        <div class="button-shadow"></div>
+                        <div class="button-frame"></div>
+                    </a>
+                </div>
+                <div class="comic-brutal-button-container" >
+                    <a class="comic-brutal-button" href="" data-turbo-frame="main">
+                        <div class="button-inner">
+                        <span class="button-text">Categorías</span>
+                        <div class="halftone-overlay"></div>
+                        <div class="ink-splatter"></div>
+                        </div>
+                        <div class="button-shadow"></div>
+                        <div class="button-frame"></div>
+                    </a>
+                </div>
+                <div class="comic-brutal-button-container" >
+                    <a class="comic-brutal-button {% if app.request.attributes.get('_route') == 'galeria' %}active{% endif %}" href="{{ path('galeria') }}" data-turbo-frame="main" >
+                        <div class="button-inner">
+                        <span class="button-text">Imagenes</span>
+                        <div class="halftone-overlay"></div>
+                        <div class="ink-splatter"></div>
+                        </div>
+                        <div class="button-shadow"></div>
+                        <div class="button-frame"></div>
+                    </a>
+                </div>
+                <div class="comic-brutal-button-container" >
+                    <a class="comic-brutal-button {% if app.request.attributes.get('_route') == 'perfil' %}active{% endif %}" href="{{ path('perfil') }}" data-turbo-frame="main">
+                        <div class="button-inner">
+                        <span class="button-text">Perfil</span>
+                        <div class="halftone-overlay"></div>
+                        <div class="ink-splatter"></div>
+                        </div>
+                        <div class="button-shadow"></div>
+                        <div class="button-frame"></div>
+                    </a>
+                </div>
             </nav>
             <footer class="p-4">
                 <form action="{{ path('_logout_main') }}" method="post">

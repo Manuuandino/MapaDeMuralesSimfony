@@ -3,6 +3,136 @@
 {% block title %}Mapa interactivo{% endblock %}
 
 {% block stylesheets %}
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  {{ encore_entry_link_tags('app') }}
+  {{ encore_entry_link_tags('mapa') }}
+{% endblock %}
+
+{% block content %}
+  <div class="max-w-6xl">
+    <div id="map" class="h-[100vh] w-full rounded-xl shadow-md overflow-hidden"></div>
+
+    {% include 'mapa/modal.html.twig' %}
+  </div>
+{% endblock %}
+
+{% block javascripts %}
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Inicializar mapa centrado en La Plata
+      const map = L.map('map').setView([-34.9214, -57.9544], 13);
+
+      // Capa base
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+      }).addTo(map);
+
+      // --- Cargar pines desde Twig (seguro contra caracteres raros) ---
+      const pins = {{ pins|json_encode|raw }};
+
+      console.log('Pins cargados:', pins);
+
+      pins.forEach(pin => {
+        if (pin.lat && pin.lng) {
+            const customIcon = L.icon({
+                iconUrl: '/images/pin-icon.svg',  // tu ruta relativa a /public
+                iconSize: [50, 50],               // tamaño del icono
+                iconAnchor: [25, 50],             // el punto que apunta a la coordenada
+                popupAnchor: [0, -50]             // posición del popup respecto al icono
+            });
+
+          const marker = L.marker([pin.lat, pin.lng], { icon: customIcon }).addTo(map);
+
+          let popupContent = `<b>${pin.title}</b>`;
+
+            if (pin.description) {
+                popupContent += `<br>${pin.description}`;
+            }
+
+            // Si querés mostrar una imagen
+            if (pin.image) {
+                popupContent += `<br><img src="/uploads/pins/${pin.image}" style="width:100px; height:auto; border-radius:4px; margin-top:5px;">`;
+            }
+
+        marker.bindPopup(popupContent, {
+            maxWidth: 400,       // ancho máximo más grande
+            minWidth: 150,       // ancho mínimo para no achicarse demasiado
+            autoPan: true,       // mueve el mapa si el popup se sale
+            className: 'custom-popup'
+        });
+            marker.on('popupopen', function() {
+            map.setView(marker.getLatLng(), map.getZoom(), { animate: true });
+        });
+        }
+      });
+
+      // --- Modal y eventos ---
+      const pinModal = document.getElementById('pinModal');
+      const cancelBtn = document.getElementById('cancelBtn');
+      const latitudeInput = document.getElementById('latitude');
+      const longitudeInput = document.getElementById('longitude');
+      const fileInput = document.getElementById('fileInput');
+      const customButton = document.getElementById('customButton');
+      const fileName = document.getElementById('fileName');
+
+      customButton?.addEventListener('click', () => fileInput.click());
+      fileInput?.addEventListener('change', () => {
+        fileName.textContent = fileInput.files.length
+          ? Array.from(fileInput.files).map(f => f.name).join(', ')
+          : 'No hay archivos seleccionados';
+      });
+
+      function openModal(lat, lng) {
+        latitudeInput.value = lat;
+        longitudeInput.value = lng;
+        pinModal.classList.remove('hidden');
+      }
+
+      function closeModal() {
+        pinModal.classList.add('hidden');
+        fileInput.value = '';
+        fileName.textContent = 'No hay archivos seleccionados';
+      }
+
+      cancelBtn?.addEventListener('click', closeModal);
+      map.on('click', e => openModal(e.latlng.lat, e.latlng.lng));
+    });
+  </script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{# {% extends 'base.html.twig' %}
+
+{% block title %}Mapa interactivo{% endblock %}
+
+{% block stylesheets %}
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 {{ encore_entry_link_tags('mapa') }}
 {{ encore_entry_link_tags('app') }}
@@ -89,4 +219,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-{% endblock %}
+{% endblock %} #}

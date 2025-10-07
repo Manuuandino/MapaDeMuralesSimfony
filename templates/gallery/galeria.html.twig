@@ -1,20 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}
-    {{ encore_entry_link_tags('app') }}
-    {{ encore_entry_link_tags('gallery') }}
-{% endblock %}
-
-{% block title %}Galeria{% endblock %}
+{% block title %}Galería{% endblock %}
 
 {% block content %}
-<div class="gallery">
-  {% for img in imagenes %}
-    <div class="gallery-item">
-      <img src="{{ asset('uploads/pins/' ~ img.filename) }}" alt="Imagen">
+<div class="max-w-6xl mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold text-gray-700 mb-8 text-center">Galería</h1>
+
+  {% if imagenes is not empty %}
+    <div class="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
+      {% for img in imagenes %}
+        <div class="break-inside-avoid overflow-hidden rounded-2xl shadow-md hover:shadow-lg transition duration-300">
+          <img 
+            src="{{ asset('uploads/pins/' ~ img.filename) }}" 
+            alt="Imagen {{ loop.index }}" 
+            class="w-full h-auto object-cover hover:scale-[1.03] transition-transform duration-300"
+          >
+        </div>
+      {% endfor %}
     </div>
   {% else %}
-    <p>No hay imágenes todavía.</p>
-  {% endfor %}
+    <p class="text-center text-gray-500 text-lg mt-10">No hay imágenes todavía 🖼️</p>
+  {% endif %}
 </div>
 {% endblock %}
