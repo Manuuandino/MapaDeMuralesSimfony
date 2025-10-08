@@ -44,16 +44,21 @@
 
           const marker = L.marker([pin.lat, pin.lng], { icon: customIcon }).addTo(map);
 
-          let popupContent = `<b>${pin.title}</b>`;
+          // Contenedor centrado con Tailwind
+let popupContent = `
+  <div class="text-center p-3 bg-[#7b2cbf] -rotate-2 shadow-lg inline-block">
+    <b class="scale-x-110 tracking-wider text-xl uppercase mb-2 block font-bold text-black">
+      ${pin.title}
+    </b>
+`;
 
-            if (pin.description) {
-                popupContent += `<br>${pin.description}`;
-            }
+if (pin.image) {
+    popupContent += `<img src="/uploads/pins/${pin.image}" class="mx-auto rounded-md max-w-full h-auto mt-1 border-2 border-black">`;
+}
 
-            // Si querés mostrar una imagen
-            if (pin.image) {
-                popupContent += `<br><img src="/uploads/pins/${pin.image}" style="width:100px; height:auto; border-radius:4px; margin-top:5px;">`;
-            }
+popupContent += `</div>`;
+
+
 
         marker.bindPopup(popupContent, {
             maxWidth: 400,       // ancho máximo más grande

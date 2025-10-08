@@ -8,15 +8,21 @@
 {% block title %}Pins{% endblock %}
 
 {% block content %}
-<h1 class="text-3xl text-center font-bold mt-5 ">Todos los Pins</h1>
+<h1 class="text-3xl text-center font-bold mt-5 title">Todos los Pins</h1>
 
-<div class="flex flex-row">
+<div class="flex flex-row p-5">
 {% for pin in pins %}
-    <a href="{{ path('pins_show', {'id': pin.id}) }}" class="card m-5 ">
-        <div class="card2 flex justify-center items-center">        
-        <h2 class="text-xl font-bold text-center text-white">{{ pin.title }}</h2>
-        </div>
-    </a>
+                <div class="card-pin comic-brutal-button-container" >
+                    <a class="btn-pin comic-brutal-button" href="{{ path('pins_show', {'id': pin.id}) }}">
+                        <div class="button-inner">
+                        <span class="button-text">{{ pin.title }}</span>
+                        <div class="halftone-overlay"></div>
+                        <div class="ink-splatter"></div>
+                        </div>
+                        <div class="button-shadow"></div>
+                        <div class="button-frame"></div>
+                    </a>
+                </div>
 {% endfor %}
 </div>
 {% endblock %}

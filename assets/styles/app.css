@@ -16,12 +16,14 @@ body {
               text-decoration: none;
             }
 
-            h1, p{
-                color: #391557;
-            }
-
             .logo{
                 width: 150px;
+            }
+
+            .title{
+                text-transform: uppercase;
+                color: #ffffff;
+                text-shadow: 0.05em 0.05em 0 #000000, -0.05em -0.05em 0 #000000, 0.05em -0.05em 0 #000000, -0.05em 0.05em 0 #000000;
             }
 
             /* Sidebar */
@@ -377,184 +379,123 @@ body {
               pointer-events: none;
               animation: action-lines 0.5s ease-out forwards;
             }
-
-
-
-            /* .btn-dashboard{
+            /* FORMULARIO */
+            #form-ui{
+                height: 100vh;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                width: 100%;
-                position: relative;
-                height: 3.5em;
-                border: 3px ridge #7b2cbf;
-                outline: none;
-                background-color: transparent;
-                color: #212529;
-                transition: 1s;
-                border-radius: 0.3em;
-                font-size: 16px;
-                font-weight: bold;
-                cursor: pointer;
+                background-color: rgba(0, 0, 0, 0.7);
             }
 
-            .btn-dashboard::after{
-                content: "";
-                position: absolute;
-                top: -10px;
-                width: 100%;
-                height: 40%;
-                background-color: #e7e7e7;
-                transition: 0.5s;
-                transform-origin: center;
+
+            #pinForm, #form-login {
+              display: grid;
+              place-items: center;
+              width: 450px;
+              height: 472px;
+              padding: 25px;
+              background-color: #e7e7e7;
+              box-shadow: 0px 15px 60px #5a189a;
+              outline: 1px solid 9d4edd;
+              border-radius: 10px;
+              align-content: space-evenly;
             }
 
-            .btn-dashboard::before{
-                content: "";
-                transform-origin: center;
-                position: absolute;
-                top: 80%;
-                width: 100%;
-                height: 40%;
-                background-color: #e7e7e7;
-                transition: 0.5s;
+            #form-login-container{
+                width: 230px;
             }
 
-            .btn-dashboard:hover::before, .btn-dashboard:hover::after {
-                transform: scale(0)
+            #form-body{
+              position: absolute;
+              top: 50%;
+              right: 25px;
+              left: 25px;
+              width: 230px;
+              margin: -156px auto 0 auto;
             }
 
-            .btn-dashboard:hover {
-            box-shadow: inset 0px 0px 15px #5a189a;
+            #welcome-lines {
+              text-align: center;
+              line-height: 1;
             }
 
-            .btn-dashboard.active{
-                box-shadow: inset 0px 0px 15px #5a189a;
+            #welcome-line-1 {
+              color: #9d4edd;
+              font-weight: 600;
+              font-size: 40px;
             }
 
-            .btn-dashboard.active::before,
-            .btn-dashboard.active::after{
-                content: none;
-            } */
+            #welcome-line-2 {
+              color: #212529;
+              font-size: 18px;
+              margin-top: 17px;
+            }
 
-            /*-------------------------------------------------------------*/
-            /* FORMULARIO */
-#form-ui{
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.7);
-}
+            #input-area {
+              margin-top: 20px;
+            }
 
+            .logo-form{
+              width: 150px;
+            }
 
-#pinForm, #form-login {
-  display: grid;
-  place-items: center;
-  width: 450px;
-  height: 472px;
-  padding: 25px;
-  background-color: #e7e7e7;
-  box-shadow: 0px 15px 60px #5a189a;
-  outline: 1px solid 9d4edd;
-  border-radius: 10px;
-  align-content: space-evenly;
-}
+            .form-inp {
+              background: transparent;
+              border: 1px solid #e3e3e3;
+              line-height: 1;
+              border-radius: 8px;
+            }
 
-#form-login-container{
-    width: 230px;
-}
+            .form-inp:focus {
+              border: 1px solid;
+            }
 
-#form-body{
-  position: absolute;
-  top: 50%;
-  right: 25px;
-  left: 25px;
-  width: 230px;
-  margin: -156px auto 0 auto;
-}
+            .form-inp:first-child {
+              margin-bottom: 15px;
+            }
 
-#welcome-lines {
-  text-align: center;
-  line-height: 1;
-}
+            .form-inp input, .form-inp textarea, .form-inp .inp-login {
+              width: 100%;
+              background: none;
+              font-size: 13.4px;
+              border: none;
+              padding: 0;
+              margin: 0;
+              border: solid 1px #391557;
+              border-radius:8px;
+              padding: 11px 25px;
+            }
 
-#welcome-line-1 {
-  color: #9d4edd;
-  font-weight: 600;
-  font-size: 40px;
-}
+            .form-inp input:focus, .form-inp textarea:focus  {
+              outline: none;
+            }
 
-#welcome-line-2 {
-  color: #212529;
-  font-size: 18px;
-  margin-top: 17px;
-}
+            #submit-button-cvr {
+              margin-top: 20px;
+            }
 
-#input-area {
-  margin-top: 20px;
-}
+            #submit-button {
+              display: block;
+              width: 100%;
+              color: #7b2cbf;
+              background-color: transparent;
+              font-weight: 600;
+              font-size: 14px;
+              margin: 0;
+              padding: 14px 13px 12px 13px;
+              border: 0;
+              outline: 1px solid #7b2cbf;
+              border-radius: 8px;
+              line-height: 1;
+              cursor: pointer;
+              transition: all ease-in-out .3s;
+            }
 
-.logo-form{
-  width: 150px;
-}
-
-.form-inp {
-  background: transparent;
-  border: 1px solid #e3e3e3;
-  line-height: 1;
-  border-radius: 8px;
-}
-
-.form-inp:focus {
-  border: 1px solid;
-}
-
-.form-inp:first-child {
-  margin-bottom: 15px;
-}
-
-.form-inp input, .form-inp textarea, .form-inp .inp-login {
-  width: 100%;
-  background: none;
-  font-size: 13.4px;
-  border: none;
-  padding: 0;
-  margin: 0;
-  border: solid 1px #391557;
-  border-radius:8px;
-  padding: 11px 25px;
-}
-
-.form-inp input:focus, .form-inp textarea:focus  {
-  outline: none;
-}
-
-#submit-button-cvr {
-  margin-top: 20px;
-}
-
-#submit-button {
-  display: block;
-  width: 100%;
-  color: #7b2cbf;
-  background-color: transparent;
-  font-weight: 600;
-  font-size: 14px;
-  margin: 0;
-  padding: 14px 13px 12px 13px;
-  border: 0;
-  outline: 1px solid #7b2cbf;
-  border-radius: 8px;
-  line-height: 1;
-  cursor: pointer;
-  transition: all ease-in-out .3s;
-}
-
-#submit-button:hover {
-  transition: all ease-in-out .3s;
-  background-color: #7b2cbf;
-  color: #161616;
-  cursor: pointer;
-}
-    
+            #submit-button:hover {
+              transition: all ease-in-out .3s;
+              background-color: #7b2cbf;
+              color: #161616;
+              cursor: pointer;
+            }
+                
