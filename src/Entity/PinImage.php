@@ -21,6 +21,9 @@ class PinImage
     #[ORM\JoinColumn(nullable: false)]
     private ?Pin $pin = null;
 
+    #[ORM\ManyToOne(targetEntity: Artista::class, inversedBy: 'imagenes')]
+    private ?Artista $artista = null;
+
     // ------------------ propiedad temporal para subir archivo ------------------
     private ?UploadedFile $uploadedFile = null;
 
@@ -33,4 +36,14 @@ class PinImage
     public function setFilename(string $filename): self { $this->filename = $filename; return $this; }
     public function getPin(): ?Pin { return $this->pin; }
     public function setPin(?Pin $pin): self { $this->pin = $pin; return $this; }
+    public function getArtista(): ?Artista
+{
+    return $this->artista;
+}
+
+public function setArtista(?Artista $artista): self
+{
+    $this->artista = $artista;
+    return $this;
+}
 }

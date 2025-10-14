@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Pin;
+use App\Entity\Artista;
 use App\Form\PinImageType;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -28,6 +29,12 @@ class PinCrudController extends AbstractCrudController
             NumberField::new('latitude'),
             NumberField::new('longitude'),
             AssociationField::new('user')->hideOnForm(),
+
+            AssociationField::new('artista', 'Artista')
+                ->setFormTypeOption('by_reference', false)
+                ->setFormTypeOption('choice_value', 'id')
+                ->setRequired(false),
+
             DateTimeField::new('createdAt')->hideOnForm(),
 
             CollectionField::new('images')
@@ -51,6 +58,13 @@ class PinCrudController extends AbstractCrudController
     {
         if ($entityInstance instanceof Pin) {
             $this->handleImages($entityInstance);
+
+            // 🔧 FIX: aseguramos que el artista esté gestionado por Doctrine
+            $artista = $entityInstance->getArtista();
+            if ($artista !== null && !$em->contains($artista)) {
+                $artista = $em->getRepository(Artista::class)->find($artista->getId());
+                $entityInstance->setArtista($artista);
+            }
         }
 
         parent::updateEntity($em, $entityInstance);
@@ -67,5 +81,4 @@ class PinCrudController extends AbstractCrudController
             }
         }
     }
-
 }

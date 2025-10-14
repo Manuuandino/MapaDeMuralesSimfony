@@ -35,8 +35,14 @@ class Pin
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    // -------------------- RELACIÓN CON IMÁGENES --------------------
     #[ORM\OneToMany(mappedBy: 'pin', targetEntity: PinImage::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $images;
+
+    // -------------------- NUEVA RELACIÓN CON ARTISTA --------------------
+    #[ORM\ManyToOne(targetEntity: Artista::class, inversedBy: 'pins')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Artista $artista = null; // 🔥 Cambiado: antes era ManyToMany
 
     public function __construct()
     {
@@ -46,20 +52,29 @@ class Pin
 
     // ---------------------- GETTERS / SETTERS ----------------------
     public function getId(): ?int { return $this->id; }
+
     public function getTitle(): ?string { return $this->title; }
     public function setTitle(string $title): self { $this->title = $title; return $this; }
+
     public function getDescription(): ?string { return $this->description; }
     public function setDescription(?string $description): self { $this->description = $description; return $this; }
+
     public function getLatitude(): ?float { return $this->latitude; }
     public function setLatitude(float $latitude): self { $this->latitude = $latitude; return $this; }
+
     public function getLongitude(): ?float { return $this->longitude; }
     public function setLongitude(float $longitude): self { $this->longitude = $longitude; return $this; }
+
     public function getCreatedAt(): ?\DateTimeInterface { return $this->createdAt; }
     public function setCreatedAt(\DateTimeInterface $createdAt): self { $this->createdAt = $createdAt; return $this; }
+
     public function getUser(): ?User { return $this->user; }
     public function setUser(?User $user): self { $this->user = $user; return $this; }
+
+    // ---------------------- MÉTODOS PARA IMÁGENES ----------------------
     /** @return Collection<int, PinImage> */
     public function getImages(): Collection { return $this->images; }
+
     public function addImage(PinImage $image): self
     {
         if (!$this->images->contains($image)) {
@@ -68,6 +83,7 @@ class Pin
         }
         return $this;
     }
+
     public function removeImage(PinImage $image): self
     {
         if ($this->images->removeElement($image)) {
@@ -84,14 +100,23 @@ class Pin
                 }
             }
         }
+        return $this;
+    }
 
+    // ---------------------- MÉTODOS PARA ARTISTA ----------------------
+    public function getArtista(): ?Artista
+    {
+        return $this->artista;
+    }
+
+    public function setArtista(?Artista $artista): self
+    {
+        $this->artista = $artista;
         return $this;
     }
 
     public function __toString(): string
-{
-    return $this->title ?? 'Pin #'.$this->id;
-}
-
-
+    {
+        return $this->title ?? 'Pin #'.$this->id;
+    }
 }

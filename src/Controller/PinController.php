@@ -37,6 +37,13 @@ class PinController extends AbstractController
             $pin->setLongitude((float) $request->request->get('longitude'));
             $pin->setUser($this->getUser()); // Requiere que estés logueado
 
+            $artistaId = $request->request->get('artista_id');
+            if ($artistaId) {
+                $artista = $em->getRepository(Artista::class)->find($artistaId);
+                $pin->setArtista($artista);
+            }
+
+
             // Manejar múltiples imágenes
             $files = $request->files->get('images', []);
             foreach ($files as $file) {
